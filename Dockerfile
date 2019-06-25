@@ -10,11 +10,11 @@ FROM dimovnike/alpine-supervisord
 # https://hub.docker.com/r/dimovnike/alpine-supervisord/
 MAINTAINER Trenton D. Adams trenton daut d daut adams at gmail.com
 
-RUN apk add --no-cache postfix 
+RUN apk add --no-cache --upgrade postfix 
 RUN postconf -e "inet_interfaces=all"
+# alpine postfix doesn't have utf8 support
+RUN postconf -e "smtputf8_enable=no"
 
-COPY run.sh /
-RUN chmod +x /run.sh
 RUN newaliases
 
 EXPOSE 25
