@@ -27,6 +27,7 @@ docker exec -it mail postfix reload
 # Cloud
 Obviously some people are going to configure things in a **cloud**
 ephemeral kind of way.  That may be aws ssm, kubernetes config maps, etc.  
+
 My plan is to add an extension directory that accepts startup scripts that
 do configuration on startup, which is the typical way you would implement
 that.  But, for good form, make sure those scripts use **postconf** to do
