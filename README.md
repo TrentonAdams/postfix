@@ -30,7 +30,9 @@ ephemeral kind of way.  That may be aws ssm, kubernetes config maps, etc.
 
 My plan is to add an extension directory that accepts startup scripts that
 do configuration on startup, which is the typical way you would implement
-that.  But, for good form, make sure those scripts use **postconf** to do
+that.  It'll be kind of a conf.sh.d style of directory where any shelll
+script in the directory will be ran in shell expansion order; alphabetical
+essentially.  But, for good form, make sure those scripts use **postconf** to do
 the actual configuration bits.
 
 # Thanks
