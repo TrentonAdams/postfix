@@ -8,8 +8,7 @@ done a bit of postfix administration it was clear from the start this was
 not the ideal way to go, as postfix itself has configuration mechanisms for
 this purpose.
 
-The quickest way to get going is to configure postfix the way you already
-know and love (use **postconf**)...
+The quickest way to get and understanding of how things work is to configure postfix the way you already know and love (use **postconf**)...
 
 ```bash
 # create a "postfix-vol" if one does not already exist
@@ -24,18 +23,31 @@ docker exec -it mail postconf -e mynetworks=172.10.1.0/16
 docker exec -it mail postfix reload
 ```
 
-# Cloud
-Obviously some people are going to configure things in a **cloud**
-ephemeral kind of way.  That may be aws ssm, kubernetes config maps, etc.  
+That's the basics of proper postfix configuration, but ultimately you don't want to do that to a running container.  Ultimately, we want containers to be completely ephemeral, so let's get started with the cloud configuration.
 
-My plan is to add an extension directory that accepts startup scripts that
-do configuration on startup, which is the typical way you would implement
-that.  It'll be kind of a conf.sh.d style of directory where any shelll
-script in the directory will be ran in shell expansion order; alphabetical
-essentially.  But, for good form, make sure those scripts use **postconf** to do
-the actual configuration bits.
+## Cloud
 
-# Thanks
+Obviously most people are going to configure things in a **cloud**
+ephemeral kind of way.  That may be aws ssm, kubernetes config maps, s3, etc.  
+
+### S3 Configuration
+
+To start, I have added S3 configuration pull support.  All you need is an S3 bucket, a postfix-conf.zip in that bucket, some AWS credentials, and an s3_bucket env var passed to the run command.
+
+```bash
+docker run --rm -it --name mail \
+    -v "/home/your-user/.aws/:/root/.aws/" \
+    -e AWS_PROFILE=your-profile \
+    -e s3_bucket=bucket-name \
+    trentonadams/postfix:latest
+```
+
+### Future Extension
+
+My plan is to add an extension directory that accepts startup scripts that do configuration on startup, which is the typical way you would implement that.  It'll be kind of a conf.sh.d style of directory where any shell script in the directory will be ran in shell expansion order; alphabetical essentially.  But, for good form, make sure those scripts use **postconf** to do the actual configuration bits. **Feel free to implement and create a pull request for this feature! :D**
+
+## Thanks
+
 Thanks to the following people for doing some of the work on getting me
 started on supervisord, as well as running postfix in a container...
 
