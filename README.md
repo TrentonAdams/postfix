@@ -1,9 +1,19 @@
-# Getting started
+# Postfix Docker
+
+## Changelog
+
+- **1.2.1** - documentation on postfix-init.d functionality
+- **1.2.0** - added postfix-init.d extension directory
+- **1.1.0** - added s3 config bucket pull functionality
+- **1.0.0** - basic postfix running in alpine container with postconf style configuration.
+
+## Getting started
+
 There are plenty of postfix docker images out there, but none of them
-stayed true to postfix itself.  They all had some sort of
+stayed true to postfix itself. They all had some sort of
 startup script that was doing things in a way that was **special**, such as
-env vars for setting up the container, or things of that nature.  If they
-didn't do what you need, then you'd have to change their image.  Having
+env vars for setting up the container, or things of that nature. If they
+didn't do what you need, then you'd have to change their image. Having
 done a bit of postfix administration it was clear from the start this was
 not the ideal way to go, as postfix itself has configuration mechanisms for
 this purpose.
@@ -23,16 +33,16 @@ docker exec -it mail postconf -e mynetworks=172.10.1.0/16
 docker exec -it mail postfix reload
 ```
 
-That's the basics of proper postfix configuration, but ultimately you don't want to do that to a running container.  Ultimately, we want containers to be completely ephemeral, so let's get started with the cloud configuration.
+That's the basics of proper postfix configuration, but ultimately you don't want to do that to a running container. Ultimately, we want containers to be completely ephemeral, so let's get started with the cloud configuration.
 
 ## Cloud
 
 Obviously most people are going to configure things in a **cloud**
-ephemeral kind of way.  That may be aws ssm, kubernetes config maps, s3, etc.  
+ephemeral kind of way. That may be aws ssm, kubernetes config maps, s3, etc.
 
 ### S3 Configuration
 
-To start, I have added S3 configuration pull support.  All you need is an S3 bucket, a postfix-conf.zip in that bucket, some AWS credentials, and an s3_bucket env var passed to the run command.
+To start, I have added S3 configuration pull support. All you need is an S3 bucket, a postfix-conf.zip in that bucket, some AWS credentials, and an s3_bucket env var passed to the run command.
 
 ```bash
 docker run --rm -it --name mail \
@@ -42,9 +52,13 @@ docker run --rm -it --name mail \
     trentonadams/postfix:latest
 ```
 
-### Future Extension
+### Extension
 
-My plan is to add an extension directory that accepts startup scripts that do configuration on startup, which is the typical way you would implement that.  It'll be kind of a conf.sh.d style of directory where any shell script in the directory will be ran in shell expansion order; alphabetical essentially.  But, for good form, make sure those scripts use **postconf** to do the actual configuration bits. **Feel free to implement and create a pull request for this feature! :D**
+You can extend base functionality by adding scripts to `/etc/postfix-init.d/`.
+
+If using AWS it is recommended that you pull down extensions from your S3 bucket. Your `postfix-conf.zip` is extracted to `/`, so you can package into `/etc/supervisor.d` or `/etc/postfix-init.d/` as you wish.
+
+If you'd like another mechanism to add your extensions without extending the container, such as Google's Object storage, **please contribute a pull request**.
 
 ## Thanks
 
@@ -53,7 +67,5 @@ started on supervisord, as well as running postfix in a container...
 
 - I obtained some of the supervisord files from
   [juanluisbaptiste/docker-postfix](https://github.com/juanluisbaptiste/docker-postfix)
-- I obtained the main supervisord file froma
-  [dimovnike/alpine-supervisord](https://github.com/dimovnike/alpine-supervisord/blob/master/supervisord.conf)
-  as it was simpler than the former, but adjusted it to work with the former supervisord files.
-
+- I obtained the main supervisord file from
+  [dimovnike/alpine-supervisord](https://github.com/dimovnike/alpine-supervisord/blob/master/supervisord.conf) as it was simpler than the former, but adjusted it to work with the former supervisord files.
