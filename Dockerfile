@@ -14,7 +14,7 @@ RUN postconf -e "inet_interfaces=all"
 # alpine postfix doesn't have utf8 support
 RUN postconf -e "smtputf8_enable=no"
 COPY etc/ /etc/
-ADD s3-config.sh /
+ADD init.sh /
 RUN mkdir /var/log/supervisor
 
 RUN newaliases
