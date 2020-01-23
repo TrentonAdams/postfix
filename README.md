@@ -2,6 +2,7 @@
 
 ## Changelog
 
+- **1.2.2** - fixed some critical breakages in the startup scripts
 - **1.2.1** - documentation on postfix-init.d functionality
 - **1.2.0** - added postfix-init.d extension directory
 - **1.1.0** - added s3 config bucket pull functionality
@@ -42,7 +43,7 @@ ephemeral kind of way. That may be aws ssm, kubernetes config maps, s3, etc.
 
 ### S3 Configuration
 
-To start, I have added S3 configuration pull support. All you need is an S3 bucket, a postfix-conf.zip in that bucket, some AWS credentials, and an s3_bucket env var passed to the run command.
+To start, I have added S3 configuration pull support. All you need is an S3 bucket, a postfix-conf.tar.gz in that bucket, some AWS credentials, and an s3_bucket env var passed to the run command.
 
 ```bash
 docker run --rm -it --name mail \
@@ -52,11 +53,37 @@ docker run --rm -it --name mail \
     trentonadams/postfix:latest
 ```
 
-### Extension
+### Configuration Modification
 
-You can extend base functionality by adding scripts to `/etc/postfix-init.d/`.
+Let's say you have a project with your postfix configuration files in `etc/postfix`. You can safely maintain this directory by having postconf modify your configuration files; it helps avoid some mistakes. Let's see how that works.
 
-If using AWS it is recommended that you pull down extensions from your S3 bucket. Your `postfix-conf.zip` is extracted to `/`, so you can package into `/etc/supervisor.d` or `/etc/postfix-init.d/` as you wish.
+```bash
+docker run --rm \
+    --name mail \
+    -it \
+    -v "$(pwd)/etc/postfix/:/etc/postfix/" \
+    trentonadams/postfix-docker:latest \
+    postconf -e mynetworks=172.17.0.0/16
+```
+
+You can also have it spit out warnings...
+
+```bash
+docker run --rm \
+    --name mail \
+    -it \
+    -v "$(pwd)/etc/postfix/:/etc/postfix/" \
+    trentonadams/postfix-docker:latest \
+    postfix check
+```
+
+The **caveat** of this approach is that the config files are then owned by root and you have to chown them back to a regular user before committing to your project repository.
+
+## Extension
+
+You can extend base functionality by adding scripts to `/etc/postfix-init.d/` without having to extend the docker image in a new Dockerfile.
+
+If using AWS it is recommended that you pull down extensions from your S3 bucket. Your `postfix-conf.tar.gz` is extracted to `/`, so you can package into `/etc/supervisor.d` or `/etc/postfix-init.d/` as you wish.
 
 If you'd like another mechanism to add your extensions without extending the container, such as Google's Object storage, **please contribute a pull request**.
 
