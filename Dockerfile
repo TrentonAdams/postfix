@@ -1,15 +1,14 @@
 #Dockerfile for a Postfix email relay service
-FROM alpine:3.10 AS prep
+FROM amazonlinux:2 AS prep
 
 LABEL MAINTAINER Trenton D. Adams trenton daut d daut adams at gmail.com
 
-RUN apk add --no-cache --upgrade supervisor \
+RUN yum -y install \
+  python3-pip \
   postfix \
   rsyslog \
-  moreutils \
-  groff less python py-pip
-RUN pip install awscli
-RUN apk --purge -v del py-pip
+  awscli \
+  && pip3 install supervisor
 
 RUN postconf -e "inet_interfaces=all"
 # alpine postfix doesn't have utf8 support
@@ -24,6 +23,8 @@ RUN ls /etc/postfix
 RUN echo 'export $(strings /proc/1/environ | grep AWS_CONTAINER_CREDENTIALS_RELATIVE_URI)' >> /root/.profile
 
 VOLUME /etc/postfix
+
+RUN yum install -y tar
 
 ADD init.sh /
 ADD health.sh /

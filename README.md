@@ -2,6 +2,9 @@
 
 ## Changelog
 
+- **1.3.0** - switch to amazonlinux:2
+- **1.2.4** - add env variable apparently needed in AWS
+- **1.2.3** - direct stderr to stdout so we can see errors
 - **1.2.2** - fixed some critical breakages in the startup scripts
 - **1.2.1** - documentation on postfix-init.d functionality
 - **1.2.0** - added postfix-init.d extension directory
