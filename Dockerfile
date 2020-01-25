@@ -21,6 +21,8 @@ RUN newaliases
 # Check every 1 minutes, if 5 retries occur (5- minute total outage), then fail.
 HEALTHCHECK --interval=60s --timeout=60s --retries=5 CMD [ "/health.sh" ]
 RUN ls /etc/postfix
+RUN echo 'export $(strings /proc/1/environ | grep AWS_CONTAINER_CREDENTIALS_RELATIVE_URI)' >> /root/.profile
+
 VOLUME /etc/postfix
 
 ADD init.sh /
