@@ -1,5 +1,6 @@
-#!/bin/sh
+#!/usr/bin/bash
 
+echo "s3_bucket: $s3_bucket";
 if [ ! -z "$s3_bucket" ]; then
     echo starting s3-config sync from bucket: $s3_bucket | logger
     aws s3 cp s3://$s3_bucket/postfix-conf.tar.gz /tmp/ 2>&1 || \

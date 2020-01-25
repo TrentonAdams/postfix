@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/bash
 
 # support example.com by default for testing purposes.
 echo "configuring example.com" | logger

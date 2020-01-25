@@ -2,6 +2,7 @@
 
 ## Changelog
 
+- **1.3.1** - not quite working in aws, not sure why
 - **1.3.0** - switch to amazonlinux:2
 - **1.2.4** - add env variable apparently needed in AWS
 - **1.2.3** - direct stderr to stdout so we can see errors
