@@ -2,6 +2,7 @@
 
 ## Changelog
 
+- **1.3.4** - send maillog to stdout for docker to see
 - **1.3.1** - not quite working in aws, not sure why
 - **1.3.0** - switch to amazonlinux:2
 - **1.2.4** - add env variable apparently needed in AWS
@@ -30,7 +31,7 @@ The quickest way to get and understanding of how things work is to configure pos
 # see "docker volume ls" for a list of volumes
 # If you do not wish to persist the configuration, remove the '-v' and it's
 # parameter
-docker run --rm --name mail -v postfix-vol:/etc/postfix/ trentonadams/postfix:latest
+docker run --rm --name mail -v postfix-vol:/etc/postfix/ trentonadams/postfix-docker:latest
 # for a simple relay...
 docker exec -it mail postconf -e relayhost=192.168.1.1
 # docker network allowed...
