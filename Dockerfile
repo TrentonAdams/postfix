@@ -9,6 +9,8 @@ RUN yum -y install \
   rsyslog \
   awscli \
   tar \
+  yum clean all && \
+  rm -rf /var/cache/yum \
   && pip3 install supervisor
 
 RUN postconf -e "inet_interfaces=all"
