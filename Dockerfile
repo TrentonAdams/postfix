@@ -3,15 +3,18 @@ FROM amazonlinux:2 AS prep
 
 LABEL MAINTAINER Trenton D. Adams trenton daut d daut adams at gmail.com
 
-RUN yum -y install \
+RUN yum update -y \
+  && yum -y install \
   python3-pip \
   postfix \
   rsyslog \
   awscli \
   tar \
   yum clean all && \
-  rm -rf /var/cache/yum \
-  && pip3 install supervisor
+  rm -rf /var/cache/yum
+RUN pip3.7 list --outdated --format=freeze | grep -v '^\-e' | cut -d = -f 1 | xargs -n1 pip3 install -U \
+  && pip3.7 install supervisor \
+  && rm -rf /usr/lib64/python2.7/ /usr/lib/python2.7
 
 RUN postconf -e "inet_interfaces=all"
 # alpine postfix doesn't have utf8 support
