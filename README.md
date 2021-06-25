@@ -2,6 +2,7 @@
 
 ## Changelog
 
+- **1.3.8** - no-changes release new version in hopes of patching vulnerabilities
 - **1.3.7** - add yum update just to ensure the very latest packages are used
 - **1.3.6** - shrink image size
 - **1.3.5** - oops, incorrect fix 
