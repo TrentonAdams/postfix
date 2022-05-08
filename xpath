@@ -1,0 +1,9 @@
+function xpath()
+{
+  /usr/bin/xpath 2>&1 | egrep -- -e > /dev/null;
+  if [ $? -eq 0 ]; then
+    /usr/bin/xpath -e $2 $1
+  else
+    /usr/bin/xpath $1 $2
+  fi
+}
