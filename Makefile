@@ -36,5 +36,13 @@ push:  ## pushes the tagged docker image
 	docker push trentonadams/postfix-docker:$$(cat .version)
 	docker push trentonadams/postfix-docker:latest
 
+.PHONY: buildx
+buildx:
+	docker buildx build --platform linux/amd64 -t trentonadams/postfix-docker:$$(cat .version) .
+	docker tag trentonadams/postfix-docker:$$(cat .version) trentonadams/postfix-docker:latest
+
 .PHONY: release
-release: | tag build scan push ## fully releases a new version - depends on tag build scan push
+release: | tag buildx scan push ## fully releases a new version - depends on tag build scan push
+
+arch:
+	echo "$$(UNAME -m)"
