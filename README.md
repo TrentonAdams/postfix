@@ -2,6 +2,7 @@
 
 ## Changelog
 
+- **1.3.14** - no changes
 - **1.3.13** - no chnages except last one was built on m1
 - **1.3.12** - no changes screwed up last release 
 - **1.3.11** - sleep 0.5 uses a fair amount of CPU, potentially impacting cloud vm credits, increase 2s 
