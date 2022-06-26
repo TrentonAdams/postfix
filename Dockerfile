@@ -10,15 +10,15 @@ RUN yum update -y \
   rsyslog \
   awscli \
   tar \
-  yum clean all && \
-  rm -rf /var/cache/yum
+  sysvinit-tools \
+  && yum clean all \
+  && rm -rf /var/cache/yum
 RUN pip3.7 list --outdated --format=freeze | grep -v '^\-e' | cut -d = -f 1 | xargs -n1 pip3 install -U \
-  && pip3.7 install supervisor \
-  && rm -rf /usr/lib64/python2.7/ /usr/lib/python2.7
+  && pip3.7 install supervisor 
 
 RUN postconf -e "inet_interfaces=all"
 # alpine postfix doesn't have utf8 support
-RUN postconf -e "smtputf8_enable=no"
+#RUN postconf -# "smtputf8_enable=no"
 RUN mkdir /var/log/supervisor
 
 RUN newaliases
@@ -33,6 +33,7 @@ COPY etc/ /etc/
 ADD init.sh /
 ADD health.sh /
 ADD s3-config.sh /
+ADD scripts/postfix-service.sh /
 
 EXPOSE 25
 CMD ["/init.sh"]

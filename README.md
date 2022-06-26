@@ -2,6 +2,7 @@
 
 ## Changelog
 
+- **1.3.10** - supervisord doesn't like daemons, wrap postfix in a script 
 - **1.3.9** - no-changes release new version in hopes of patching vulnerabilities
 - **1.3.8** - no-changes release new version in hopes of patching vulnerabilities
 - **1.3.7** - add yum update just to ensure the very latest packages are used
