@@ -37,4 +37,4 @@ push:  ## pushes the tagged docker image
 	docker push trentonadams/postfix-docker:latest
 
 .PHONY: release
-release: | tag build scan push ## fully releases a new version - depends on tag build scan push
+release: | build scan tag push ## fully releases a new version - depends on tag build scan push

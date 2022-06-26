@@ -6,7 +6,7 @@ fi
 
 sleep 1
 while pidof master > /dev/null; do
-  sleep 0.5
+  sleep 2
   echo -n '.'
 done
 exit 1 # let supervisord handle restarts

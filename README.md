@@ -2,6 +2,7 @@
 
 ## Changelog
 
+- **1.3.11** - sleep 0.5 uses a fair amount of CPU, potentially impacting cloud vm credits, increase 2s 
 - **1.3.10** - supervisord doesn't like daemons, wrap postfix in a script 
 - **1.3.9** - no-changes release new version in hopes of patching vulnerabilities
 - **1.3.8** - no-changes release new version in hopes of patching vulnerabilities
