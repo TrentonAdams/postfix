@@ -2,6 +2,8 @@
 
 ## Changelog
 
+- **1.3.16** - PUT INFO HERE
+  - now using buildx to generate amd64 images on m1.
 - **1.3.15** - no changes
 - **1.3.14** - no changes
 - **1.3.13** - no chnages except last one was built on m1
