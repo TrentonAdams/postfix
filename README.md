@@ -2,8 +2,9 @@
 
 ## Changelog
 
-- **1.3.16** - PUT INFO HERE
+- **1.3.16** - security update
   - now using buildx to generate amd64 images on m1.
+  - rebuild for new upstream security patching
 - **1.3.15** - no changes
 - **1.3.14** - no changes
 - **1.3.13** - no chnages except last one was built on m1
