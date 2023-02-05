@@ -10,6 +10,11 @@ build: ## build the docker image
 	docker build -t trentonadams/postfix-docker:$$(cat .version) .
 	docker tag trentonadams/postfix-docker:$$(cat .version) trentonadams/postfix-docker:latest
 
+.PHONY: rebuild
+rebuild: ## build the docker image
+	docker build --no-cache -t trentonadams/postfix-docker:$$(cat .version) .
+	docker tag trentonadams/postfix-docker:$$(cat .version) trentonadams/postfix-docker:latest
+
 .PHONY: run
 run: build ## run the docker image - depends on build
 	docker run --rm --name mail -p 25:25 -v postfix-vol:/etc/postfix/ trentonadams/postfix-docker:latest
